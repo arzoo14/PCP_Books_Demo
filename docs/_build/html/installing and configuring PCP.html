@@ -1,0 +1,777 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>2. Installing and Configuring Performance Co-Pilot &mdash; PCP Books  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="1. Programming Performance Co-Pilot" href="programming pcp.html" />
+    <link rel="prev" title="1. Introduction to PCP" href="intro to pcp.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: dark blue" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> PCP Books
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User's and Administrator's Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro to pcp.html">1. Introduction to PCP</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Installing and Configuring Performance Co-Pilot</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#product-structure">2.1. Product Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#performance-metrics-collection-daemon-pmcd">2.2. ⁠Performance Metrics Collection Daemon (PMCD)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#starting-and-stopping-the-pmcd">2.2.1. Starting and Stopping the PMCD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#restarting-an-unresponsive-pmcd">2.2.2. Restarting an Unresponsive PMCD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pmcd-diagnostics-and-error-messages">2.2.3. PMCD Diagnostics and Error Messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pmcd-options-and-configuration-files">2.2.4. PMCD Options and Configuration Files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#the-pmcd-options-file">2.2.4.1. The pmcd.options File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-pmcd-conf-file">2.2.4.2. The pmcd.conf File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#controlling-access-to-pmcd-with-pmcd-conf">2.2.4.3. Controlling Access to PMCD with pmcd.conf</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#managing-optional-pmdas">2.3. Managing Optional PMDAs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pmda-installation-on-a-pcp-collector-host">2.3.1. PMDA Installation on a PCP Collector Host</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pmda-removal-on-a-pcp-collector-host">2.3.2. PMDA Removal on a PCP Collector Host</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#troubleshooting">2.4. Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#performance-metrics-name-space">2.4.1. Performance Metrics Name Space</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#missing-and-incomplete-values-for-performance-metrics">2.4.2. Missing and Incomplete Values for Performance Metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kernel-metrics-and-the-pmcd">2.4.3. Kernel Metrics and the PMCD</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cannot-connect-to-remote-pmcd">2.4.3.1. Cannot Connect to Remote PMCD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pmcd-not-reconfiguring-after-sighup">2.4.3.2. PMCD Not Reconfiguring after SIGHUP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pmcd-does-not-start">2.4.3.3. PMCD Does Not Start</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Programmer's Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="programming pcp.html">1. Programming Performance Co-Pilot</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PCP Books</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>2. Installing and Configuring Performance Co-Pilot</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/installing and configuring PCP.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="installing-and-configuring-performance-co-pilot">
+<span id="installing-and-configuring-pcp"></span><h1><a class="toc-backref" href="#id1">2. Installing and Configuring Performance Co-Pilot</a><a class="headerlink" href="#installing-and-configuring-performance-co-pilot" title="Permalink to this headline">¶</a></h1>
+<p>The sections in this chapter describe the basic installation and configuration steps necessary to run Performance Co-Pilot (PCP) on your systems.</p>
+<div class="contents topic" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#installing-and-configuring-performance-co-pilot" id="id1">Installing and Configuring Performance Co-Pilot</a><ul>
+<li><a class="reference internal" href="#product-structure" id="id2">Product Structure</a></li>
+<li><a class="reference internal" href="#performance-metrics-collection-daemon-pmcd" id="id3">⁠Performance Metrics Collection Daemon (PMCD)</a><ul>
+<li><a class="reference internal" href="#starting-and-stopping-the-pmcd" id="id4">Starting and Stopping the PMCD</a></li>
+<li><a class="reference internal" href="#restarting-an-unresponsive-pmcd" id="id5">Restarting an Unresponsive PMCD</a></li>
+<li><a class="reference internal" href="#pmcd-diagnostics-and-error-messages" id="id6">PMCD Diagnostics and Error Messages</a></li>
+<li><a class="reference internal" href="#pmcd-options-and-configuration-files" id="id7">PMCD Options and Configuration Files</a><ul>
+<li><a class="reference internal" href="#the-pmcd-options-file" id="id8">The pmcd.options File</a></li>
+<li><a class="reference internal" href="#the-pmcd-conf-file" id="id9">The pmcd.conf File</a></li>
+<li><a class="reference internal" href="#controlling-access-to-pmcd-with-pmcd-conf" id="id10">Controlling Access to PMCD with pmcd.conf</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#managing-optional-pmdas" id="id11">Managing Optional PMDAs</a><ul>
+<li><a class="reference internal" href="#pmda-installation-on-a-pcp-collector-host" id="id12">PMDA Installation on a PCP Collector Host</a></li>
+<li><a class="reference internal" href="#pmda-removal-on-a-pcp-collector-host" id="id13">PMDA Removal on a PCP Collector Host</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#troubleshooting" id="id14">Troubleshooting</a><ul>
+<li><a class="reference internal" href="#performance-metrics-name-space" id="id15">Performance Metrics Name Space</a></li>
+<li><a class="reference internal" href="#missing-and-incomplete-values-for-performance-metrics" id="id16">Missing and Incomplete Values for Performance Metrics</a></li>
+<li><a class="reference internal" href="#kernel-metrics-and-the-pmcd" id="id17">Kernel Metrics and the PMCD</a><ul>
+<li><a class="reference internal" href="#cannot-connect-to-remote-pmcd" id="id18">Cannot Connect to Remote PMCD</a></li>
+<li><a class="reference internal" href="#pmcd-not-reconfiguring-after-sighup" id="id19">PMCD Not Reconfiguring after SIGHUP</a></li>
+<li><a class="reference internal" href="#pmcd-does-not-start" id="id20">PMCD Does Not Start</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="product-structure">
+<h2><a class="toc-backref" href="#id2">2.1. Product Structure</a><a class="headerlink" href="#product-structure" title="Permalink to this headline">¶</a></h2>
+<p>In a typical deployment, Performance Co-Pilot (PCP) would be installed in a collector configuration on one or more hosts, from which the performance information could then be collected, and in a monitor configuration on one or more workstations, from which the performance of the server systems could then be monitored.</p>
+<p>On some platforms Performance Co-Pilot is presented as multiple packages; typically separating the server components from graphical user interfaces and documentation.
+⁠
+pcp-X.Y.Z-rev</p>
+<p>package for core PCP</p>
+<p>pcp-gui-X.Y.Z-rev</p>
+<p>package for graphical PCP client tools</p>
+<p>pcp-doc-X.Y.Z-rev</p>
+<p>package for online PCP documentation</p>
+</div>
+<div class="section" id="performance-metrics-collection-daemon-pmcd">
+<h2><a class="toc-backref" href="#id3">2.2. ⁠Performance Metrics Collection Daemon (PMCD)</a><a class="headerlink" href="#performance-metrics-collection-daemon-pmcd" title="Permalink to this headline">¶</a></h2>
+<p>On each Performance Co-Pilot (PCP) collection system, you must be certain that the pmcd daemon is running. This daemon coordinates the gathering and exporting of performance statistics in response to requests from the PCP monitoring tools.
+⁠</p>
+<div class="section" id="starting-and-stopping-the-pmcd">
+<h3><a class="toc-backref" href="#id4">2.2.1. Starting and Stopping the PMCD</a><a class="headerlink" href="#starting-and-stopping-the-pmcd" title="Permalink to this headline">¶</a></h3>
+<p>To start the daemon, enter the following commands as root on each PCP collection system:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre>chkconfig pmcd on
+${PCP_RC_DIR}/pmcd start
+</pre></div>
+</div>
+<p>These commands instruct the system to start the daemon immediately, and again whenever the system is booted. It is not necessary to start the daemon on the monitoring system unless you wish to collect performance information from it as well.</p>
+<p>To stop pmcd immediately on a PCP collection system, enter the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre>${PCP_RC_DIR}/pmcd stop
+</pre></div>
+</div>
+</div>
+<div class="section" id="restarting-an-unresponsive-pmcd">
+<h3><a class="toc-backref" href="#id5">2.2.2. Restarting an Unresponsive PMCD</a><a class="headerlink" href="#restarting-an-unresponsive-pmcd" title="Permalink to this headline">¶</a></h3>
+<p>Sometimes, if a daemon is not responding on a PCP collection system, the problem can be resolved by stopping and then immediately restarting a fresh instance of the daemon. If you need to stop and then immediately restart PMCD on a PCP collection system, use the start argument provided with the script in ${PCP_RC_DIR}. The command syntax is, as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre>${PCP_RC_DIR}/pmcd start
+</pre></div>
+</div>
+<p>On startup, pmcd looks for a configuration file at ${PCP_PMCDCONF_PATH}. This file specifies which agents cover which performance metrics domains and how PMCD should make contact with the agents. A comprehensive description of the configuration file syntax and semantics can be found in the pmcd(1) man page.</p>
+<p>If the configuration is changed, pmcd reconfigures itself when it receives the SIGHUP signal. Use the following command to send the SIGHUP signal to the daemon:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre>${PCP_BINADM_DIR}/pmsignal -a -s HUP pmcd
+</pre></div>
+</div>
+<p>This is also useful when one of the PMDAs managed by pmcd has failed or has been terminated by pmcd. Upon receipt of the SIGHUP signal, pmcd restarts any PMDA that is configured but inactive. The exception to this rule is the case of a PMDA which must run with superuser privileges (where possible, this is avoided) - for these PMDAs, a full pmcd restart must be performed, using the process described earlier (not SIGHUP).</p>
+</div>
+<div class="section" id="pmcd-diagnostics-and-error-messages">
+<h3><a class="toc-backref" href="#id6">2.2.3. PMCD Diagnostics and Error Messages</a><a class="headerlink" href="#pmcd-diagnostics-and-error-messages" title="Permalink to this headline">¶</a></h3>
+<p>If there is a problem with <strong>pmcd</strong>, the first place to investigate should be the <strong>pmcd.log</strong> file. By default, this file is in the <strong>${PCP_LOG_DIR}/pmcd</strong> directory.</p>
+</div>
+<div class="section" id="pmcd-options-and-configuration-files">
+<h3><a class="toc-backref" href="#id7">2.2.4. PMCD Options and Configuration Files</a><a class="headerlink" href="#pmcd-options-and-configuration-files" title="Permalink to this headline">¶</a></h3>
+<p>There are two files that control PMCD operation. These are the ${PCP_PMCDCONF_PATH} and ${PCP_PMCDOPTIONS_PATH} files. The pmcd.options file contains the command line options used with PMCD; it is read when the daemon is invoked by ${PCP_RC_DIR}/pmcd. The pmcd.conf file contains configuration information regarding domain agents and the metrics that they monitor. These configuration files are described in the following sections.</p>
+<div class="section" id="the-pmcd-options-file">
+<h4><a class="toc-backref" href="#id8">2.2.4.1. The pmcd.options File</a><a class="headerlink" href="#the-pmcd-options-file" title="Permalink to this headline">¶</a></h4>
+<p>Command line options for the PMCD are stored in the ${PCP_PMCDOPTIONS_PATH} file. The PMCD can be invoked directly from a shell prompt, or it can be invoked by ${PCP_RC_DIR}/pmcd as part of the boot process. It is usual and normal to invoke it using ${PCP_RC_DIR}/pmcd, reserving shell invocation for debugging purposes.</p>
+<p>The PMCD accepts certain command line options to control its execution, and these options are placed in the pmcd.options file when ${PCP_RC_DIR}/pmcd is being used to start the daemon. The following options (amongst others) are available:</p>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-i</span></kbd></td>
+<td>address</td></tr>
+</tbody>
+</table>
+<p>For hosts with more than one network interface, this option specifies the interface on which this instance of the PMCD accepts connections. Multiple -i options may be specified. The default in the absence of any -i option is for PMCD to accept connections on all interfaces.</p>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-l</span></kbd></td>
+<td>file</td></tr>
+</tbody>
+</table>
+<p>Specifies a log file. If no -l option is specified, the log file name is pmcd.log and it is created in the directory ${PCP_LOG_DIR}/pmcd/.</p>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-s</span></kbd></td>
+<td>file</td></tr>
+</tbody>
+</table>
+<p>Specifies the path to a local unix domain socket (for platforms supporting this socket family only). The default value is ${PCP_RUN_DIR}/pmcd.socket.</p>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-t</span></kbd></td>
+<td>seconds</td></tr>
+</tbody>
+</table>
+<p>Specifies the amount of time, in seconds, before PMCD times out on protocol data unit (PDU) exchanges with PMDAs. If no time out is specified, the default is five seconds. Setting time out to zero disables time outs (not recommended, PMDAs should always respond quickly).</p>
+<p>The time out may be dynamically modified by storing the number of seconds into the metric pmcd.control.timeout using pmstore.</p>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-T</span></kbd></td>
+<td>mask</td></tr>
+</tbody>
+</table>
+<p>Specifies whether connection and PDU tracing are turned on for debugging purposes.</p>
+<p>See the pmcd(1) man page for complete information on these options.</p>
+<p>The default pmcd.options file shipped with PCP is similar to the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="c1"># command-line options to pmcd, uncomment/edit lines as required</span>
+
+<span class="c1"># longer timeout delay for slow agents</span>
+<span class="c1"># -t 10</span>
+
+<span class="c1"># suppress timeouts</span>
+<span class="c1"># -t 0</span>
+
+<span class="c1"># make log go someplace else</span>
+<span class="c1"># -l /some/place/else</span>
+
+<span class="c1"># debugging knobs, see pmdbg(1)</span>
+<span class="c1"># -D N</span>
+<span class="c1"># -f</span>
+
+<span class="c1"># Restricting (further) incoming PDU size to prevent DOS attacks</span>
+<span class="c1"># -L 16384</span>
+
+<span class="c1"># enable event tracing bit fields</span>
+<span class="c1">#   1   trace connections</span>
+<span class="c1">#   2   trace PDUs</span>
+<span class="c1"># 256   unbuffered tracing</span>
+<span class="c1"># -T 3</span>
+
+<span class="c1"># setting of environment variables for pmcd and</span>
+<span class="c1"># the PCP rc scripts. See pmcd(1) and PMAPI(3).</span>
+<span class="c1"># PMCD_WAIT_TIMEOUT=120</span>
+</pre></div>
+</div>
+<p>The most commonly used options have been placed in this file for your convenience. To uncomment and use an option, simply remove the pound sign (#) at the beginning of the line with the option you wish to use. Restart pmcd for the change to take effect; that is, as superuser, enter the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre>${PCP_RC_DIR}/pmcd start
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-pmcd-conf-file">
+<h4><a class="toc-backref" href="#id9">2.2.4.2. The pmcd.conf File</a><a class="headerlink" href="#the-pmcd-conf-file" title="Permalink to this headline">¶</a></h4>
+<p>When the PMCD is invoked, it reads its configuration file, which is ${PCP_PMCDCONF_PATH}. This file contains entries that specify the PMDAs used by this instance of the PMCD and which metrics are covered by these PMDAs. Also, you may specify access control rules in this file for the various hosts, users and groups on your network. This file is described completely in the pmcd(1) man page.</p>
+<p>With standard PCP operation (even if you have not created and added your own PMDAs), you might need to edit this file in order to add any additional access control you wish to impose. If you do not add access control rules, all access for all operations is granted to the local host, and read-only access is granted to remote hosts. The pmcd.conf file is automatically generated during the software build process and on Linux, for example, is similar to the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre> Performance Metrics Domain Specifications
+#
+# This file is automatically generated during the build
+# Name  Id      IPC     IPC Params      File/Cmd
+root    1       pipe    binary          /var/lib/pcp/pmdas/root/pmdaroot
+pmcd    2       dso     pmcd_init       ${PCP_PMDAS_DIR}/pmcd/pmda_pmcd.so
+proc    3       pipe    binary          ${PCP_PMDAS_DIR}/proc/pmdaproc -d 3
+xfs     11      pipe    binary          ${PCP_PMDAS_DIR}/xfs/pmdaxfs -d 11
+linux   60      dso     linux_init      ${PCP_PMDAS_DIR}/linux/pmda_linux.so
+mmv     70      dso     mmv_init        /var/lib/pcp/pmdas/mmv/pmda_mmv.so
+
+[access]
+disallow &quot;.*&quot; : store;
+disallow &quot;:*&quot; : store;
+allow &quot;local:*&quot; : all;
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Even though PMCD does not run with root privileges, you must be very careful not to         configure PMDAs in this file if you are not sure of their action. This is because all PMDAs are initially started as root (allowing them to assume alternate identities, such as  postgres for example), after which pmcd drops its privileges. Pay close attention that  permissions on this file are not inadvertently downgraded to allow public write access.</p>
+</div>
+<p>Each entry in this configuration file contains rules that specify how to connect the PMCD to a particular PMDA and which metrics the PMDA monitors. A PMDA may be attached as a Dynamic Shared Object (DSO) or by using a socket or a pair of pipes. The distinction between these attachment methods is described below.</p>
+<p>An entry in the pmcd.conf file looks like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">label_name</span>   <span class="n">domain_number</span>   <span class="nb">type</span>   <span class="n">path</span>
+</pre></div>
+</div>
+<p>The label_name field specifies a name for the PMDA. The domain_number is an integer value that specifies a domain of metrics for the PMDA. The type field indicates the type of entry (DSO, socket, or pipe). The path field is for additional information, and varies according to the type of entry.</p>
+<p>The following rules are common to DSO, socket, and pipe syntax:</p>
+<p><em>label_name</em></p>
+<p>An alphanumeric string identifying the agent.</p>
+<p><em>domain_number</em></p>
+<p>An unsigned integer specifying the agent’s domain.</p>
+<p>DSO entries follow this syntax:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">label_name</span> <span class="n">domain_number</span> <span class="n">dso</span> <span class="n">entry</span><span class="o">-</span><span class="n">point</span> <span class="n">path</span>
+</pre></div>
+</div>
+<p>The following rules apply to the DSO syntax:</p>
+<p><strong>dso</strong></p>
+<p>The entry type.</p>
+<p><em>entry-point</em></p>
+<p>The name of an initialization function called when the DSO is loaded.</p>
+<p><em>path</em></p>
+<p>Designates the location of the DSO. An absolute path must be used. On most platforms this will be a so suffixed file, on Windows it is a dll, and on Mac OS X it is a dylib file.</p>
+<p>Socket entries in the pmcd.conf file follow this syntax:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">label_name</span> <span class="n">domain_number</span> <span class="n">socket</span> <span class="n">addr_family</span> <span class="n">address</span> <span class="n">command</span> <span class="p">[</span><span class="n">args</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The following rules apply to the socket syntax:</p>
+<p><strong>socket</strong></p>
+<p>The entry type.</p>
+<p><em>addr_family</em></p>
+<p>Specifies if the socket is AF_INET, AF_IPV6 or AF_UNIX. If the socket is INET, the word inet appears in this place. If the socket is IPV6, the word ipv6 appears in this place. If the socket is UNIX, the word unix appears in this place.</p>
+<p><em>address</em></p>
+<p>Specifies the address of the socket. For INET or IPv6 sockets, this is a port number or port name. For UNIX sockets, this is the name of the PMDA’s socket on the local host.</p>
+<p><em>command</em></p>
+<p>Specifies a command to start the PMDA when the PMCD is invoked and reads the configuration file.</p>
+<p><em>args</em></p>
+<p>Optional arguments for command.</p>
+<p>Pipe entries in the pmcd.conf file follow this syntax:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">label_name</span> <span class="n">domain_number</span> <span class="n">pipe</span> <span class="n">protocol</span> <span class="n">command</span> <span class="p">[</span><span class="n">args</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The following rules apply to the pipe syntax:</p>
+<p><strong>pipe</strong></p>
+<p>The entry type.</p>
+<p><em>protocol</em></p>
+<p>Specifies whether a text-based or a binary PCP protocol should be used over the pipes. Historically, this parameter was able to be “text” or “binary.” The text-based protocol has long since been deprecated and removed, however, so nowadays “binary” is the only valid value here.</p>
+<p><em>command</em></p>
+<p>Specifies a command to start the PMDA when the PMCD is invoked and reads the configuration
+file.</p>
+<p><em>args</em></p>
+<p>Optional arguments for command.</p>
+</div>
+<div class="section" id="controlling-access-to-pmcd-with-pmcd-conf">
+<h4><a class="toc-backref" href="#id10">2.2.4.3. Controlling Access to PMCD with pmcd.conf</a><a class="headerlink" href="#controlling-access-to-pmcd-with-pmcd-conf" title="Permalink to this headline">¶</a></h4>
+<p>You can place this option extension in the pmcd.conf file to control access to performance metric data based on hosts, users and groups. To add an access control section, begin by placing the following line at the end of your pmcd.conf file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="p">[</span><span class="n">access</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Below this line, you can add entries of the following forms:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">allow</span> <span class="n">hosts</span> <span class="n">hostlist</span> <span class="p">:</span> <span class="n">operations</span> <span class="p">;</span>   <span class="n">disallow</span> <span class="n">hosts</span> <span class="n">hostlist</span> <span class="p">:</span> <span class="n">operations</span> <span class="p">;</span>
+<span class="n">allow</span> <span class="n">users</span> <span class="n">userlist</span> <span class="p">:</span> <span class="n">operations</span> <span class="p">;</span>   <span class="n">disallow</span> <span class="n">users</span> <span class="n">userlist</span> <span class="p">:</span> <span class="n">operations</span> <span class="p">;</span>
+<span class="n">allow</span> <span class="n">groups</span> <span class="n">grouplist</span> <span class="p">:</span> <span class="n">operations</span> <span class="p">;</span>   <span class="n">disallow</span> <span class="n">groups</span> <span class="n">grouplist</span> <span class="p">:</span> <span class="n">operations</span> <span class="p">;</span>
+</pre></div>
+</div>
+<p>The keywords users, groups and hosts can be used in either plural or singular form.</p>
+<p>The userlist and grouplist fields are comma-separated lists of authenticated users and groups from the local /etc/passwd and /etc/groups files, NIS (network information service) or LDAP (lightweight directory access protocol) service.</p>
+<p>The hostlist is a comma-separated list of host identifiers; the following rules apply:</p>
+<p>Host names must be in the local system’s /etc/hosts file or known to the local DNS (domain name service).</p>
+<p>IP and IPv6 addresses may be given in the usual numeric notations.</p>
+<p>A wildcarded IP or IPv6 address may be used to specify groups of hosts, with the single wildcard character * as the last-given component of the address. The wildcard .* refers to all IP (IPv4) addresses. The wildcard :* refers to all IPv6 addresses. If an IPv6 wildcard contains a :: component, then the final * refers to the final 16 bits of the address only, otherwise it refers to the remaining unspecified bits of the address.</p>
+<p>The wildcard ‘’*’’ refers to all users, groups or host addresses. Names of users, groups or hosts may not be wildcarded.</p>
+<p>For example, the following hostlist entries are all valid:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">babylon</span>
+<span class="n">babylon</span><span class="o">.</span><span class="n">acme</span><span class="o">.</span><span class="n">com</span>
+<span class="mf">123.101</span><span class="o">.</span><span class="mf">27.44</span>
+<span class="n">localhost</span>
+<span class="mf">155.116</span><span class="o">.</span><span class="mf">24.</span><span class="o">*</span>
+<span class="mf">192.</span><span class="o">*</span>
+<span class="o">.*</span>
+<span class="n">fe80</span><span class="p">::</span><span class="mi">223</span><span class="p">:</span><span class="mi">14</span><span class="n">ff</span><span class="p">:</span><span class="n">feaf</span><span class="p">:</span><span class="n">b62c</span>
+<span class="n">fe80</span><span class="p">::</span><span class="mi">223</span><span class="p">:</span><span class="mi">14</span><span class="n">ff</span><span class="p">:</span><span class="n">feaf</span><span class="p">:</span><span class="o">*</span>
+<span class="n">fe80</span><span class="p">:</span><span class="o">*</span>
+<span class="p">:</span><span class="o">*</span>
+<span class="o">*</span>
+</pre></div>
+</div>
+<p>The operations field can be any of the following:</p>
+<p>A comma-separated list of the operation types described below.</p>
+<p>The word all to allow or disallow all operations as specified in the first field.</p>
+<p>The words all except and a list of operations. This entry allows or disallows all operations as specified in the first field except those listed.</p>
+<p>The phrase maximum N connections to set an upper bound (N) on the number of connections an individual host, user or group of users may make. This can only be added to the operations list of an allow statement.</p>
+<p>The operations that can be allowed or disallowed are as follows:</p>
+<p><strong>fetch</strong></p>
+<p>Allows retrieval of information from the PMCD. This may be information about a metric (such as a description, instance domain, or help text) or an actual value for a metric.</p>
+<p><strong>store</strong></p>
+<p>Allows the PMCD to store metric values in PMDAs that permit store operations. Be cautious in allowing this operation, because it may be a security opening in large networks, although the PMDAs shipped with the PCP package typically reject store operations, except for selected performance metrics where the effect is benign.</p>
+<p>For example, here is a sample access control portion of a ${PCP_PMCDCONF_PATH} file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">allow</span> <span class="n">hosts</span> <span class="n">babylon</span><span class="p">,</span> <span class="n">moomba</span> <span class="p">:</span> <span class="nb">all</span> <span class="p">;</span>
+<span class="n">disallow</span> <span class="n">user</span> <span class="n">sam</span> <span class="p">:</span> <span class="nb">all</span> <span class="p">;</span>
+<span class="n">allow</span> <span class="n">group</span> <span class="n">dev</span> <span class="p">:</span> <span class="n">fetch</span> <span class="p">;</span>
+<span class="n">allow</span> <span class="n">hosts</span> <span class="mf">192.127</span><span class="o">.</span><span class="mf">4.</span><span class="o">*</span> <span class="p">:</span> <span class="n">fetch</span> <span class="p">;</span>
+<span class="n">disallow</span> <span class="n">host</span> <span class="n">gate</span><span class="o">-</span><span class="n">inet</span> <span class="p">:</span> <span class="n">store</span> <span class="p">;</span>
+</pre></div>
+</div>
+<p>Complete information on access control syntax rules in the pmcd.conf file can be found in the pmcd(1) man page.</p>
+</div>
+</div>
+</div>
+<div class="section" id="managing-optional-pmdas">
+<h2><a class="toc-backref" href="#id11">2.3. Managing Optional PMDAs</a><a class="headerlink" href="#managing-optional-pmdas" title="Permalink to this headline">¶</a></h2>
+<p>Some Performance Metrics Domain Agents (PMDAs) shipped with Performance Co-Pilot (PCP) are designed to be installed and activated on every collector host, for example, linux, windows, darwin, pmcd, and process PMDAs.</p>
+<p>Other PMDAs are designed for optional activation and require some user action to make them operational. In some cases these PMDAs expect local site customization to reflect the operational environment, the system configuration, or the production workload. This customization is typically supported by interactive installation scripts for each PMDA.</p>
+<p>Each PMDA has its own directory located below ${PCP_PMDAS_DIR}. Each directory contains a Remove script to unconfigure the PMDA, remove the associated metrics from the PMNS, and restart the  pmcd daemon; and an Install script to install the PMDA, update the PMNS, and restart the PMCD daemon.</p>
+<p>As a shortcut mechanism to support automated PMDA installation, a file named .NeedInstall can be created in a PMDA directory below ${PCP_PMDAS_DIR}. The next restart of PCP services will invoke that PMDAs installation automatically, with default options taken.
+⁠</p>
+<div class="section" id="pmda-installation-on-a-pcp-collector-host">
+<h3><a class="toc-backref" href="#id12">2.3.1. PMDA Installation on a PCP Collector Host</a><a class="headerlink" href="#pmda-installation-on-a-pcp-collector-host" title="Permalink to this headline">¶</a></h3>
+<p>To install a PMDA you must perform a collector installation for each host on which the PMDA is required to export performance metrics. PCP provides a distributed metric namespace (PMNS) and metadata, so it is not necessary to install PMDAs (with their associated PMNS) on PCP monitor hosts.</p>
+<p>You need to update the PMNS, configure the PMDA, and notify PMCD. The Install script for each PMDA automates these operations, as follows:</p>
+<ol class="arabic">
+<li><p class="first">Log in as root (the superuser).</p>
+</li>
+<li><p class="first">Change to the PMDA’s directory as shown in the following example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre>cd ${PCP_PMDAS_DIR}/cisco
+</pre></div>
+</div>
+</li>
+<li><p class="first">In the unlikely event that you wish to use a non-default Performance Metrics Domain (PMD) assignment, determine the current PMD assignment:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">cat</span> <span class="n">domain</span><span class="o">.</span><span class="n">h</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>Check that there is no conflict in the PMDs as defined in ${PCP_VAR_DIR}/pmns/stdpmid and the other PMDAs currently in use (listed in ${PCP_PMCDCONF_PATH}). Edit domain.h to assign the new domain number if there is a conflict (this is highly unlikely to occur in a regular PCP installation).</p>
+<ol class="arabic" start="4">
+<li><p class="first">Enter the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="o">./</span><span class="n">Install</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>You may be prompted to enter some local parameters or configuration options. The script applies all required changes to the control files and to the PMNS, and then notifies PMCD. Example 2.1, “PMNS Installation Output ” is illustrative of the interactions:
+⁠</p>
+<p><strong>Example 2.1. PMNS Installation Output</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre>Cisco hostname or IP address? [return to quit] wanmelb
+
+A user-level password may be required for Cisco “show int” command.
+    If you are unsure, try the command
+        $ telnet wanmelb
+    and if the prompt “Password:” appears, a user-level password is
+    required; otherwise answer the next question with an empty line.
+
+User-level Cisco password? ********
+Probing Cisco for list of interfaces ...
+
+Enter interfaces to monitor, one per line in the format
+tX where “t” is a type and one of “e” (Ethernet), or “f” (Fddi), or
+“s” (Serial), or “a” (ATM), and “X” is an interface identifier
+which is either an integer (e.g.  4000 Series routers) or two
+integers separated by a slash (e.g. 7000 Series routers).
+
+The currently unselected interfaces for the Cisco “wanmelb” are:
+    e0 s0 s1
+Enter “quit” to terminate the interface selection process.
+Interface? [e0] s0
+
+The currently unselected interfaces for the Cisco “wanmelb” are:
+       e0 s1
+Enter “quit” to terminate the interface selection process.
+Interface? [e0] s1
+
+The currently unselected interfaces for the Cisco “wanmelb” are:
+    e0
+Enter “quit” to terminate the interface selection process.
+Interface? [e0] quit
+
+Cisco hostname or IP address? [return to quit]
+Updating the Performance Metrics Name Space (PMNS) ...
+Installing pmchart view(s) ...
+Terminate PMDA if already installed ...
+Installing files ...
+Updating the PMCD control file, and notifying PMCD ...
+Check cisco metrics have appeared ... 5 metrics and 10 values
+</pre></div>
+</div>
+</div>
+<div class="section" id="pmda-removal-on-a-pcp-collector-host">
+<h3><a class="toc-backref" href="#id13">2.3.2. PMDA Removal on a PCP Collector Host</a><a class="headerlink" href="#pmda-removal-on-a-pcp-collector-host" title="Permalink to this headline">¶</a></h3>
+<p>To remove a PMDA, you must perform a collector removal for each host on which the PMDA is currently installed.</p>
+<p>The PMNS needs to be updated, the PMDA unconfigured, and PMCD notified. The Remove script for each PMDA automates these operations, as follows:</p>
+<ol class="arabic">
+<li><p class="first">Log in as root (the superuser).</p>
+</li>
+<li><p class="first">Change to the PMDA’s directory as shown in the following example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre>cd ${PCP_PMDAS_DIR}/elasticsearch
+</pre></div>
+</div>
+</li>
+<li><p class="first">Enter the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="o">./</span><span class="n">Remove</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>The following output illustrates the result:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">Culling</span> <span class="n">the</span> <span class="n">Performance</span> <span class="n">Metrics</span> <span class="n">Name</span> <span class="n">Space</span> <span class="o">...</span>
+<span class="n">elasticsearch</span> <span class="o">...</span> <span class="n">done</span>
+<span class="n">Updating</span> <span class="n">the</span> <span class="n">PMCD</span> <span class="n">control</span> <span class="n">file</span><span class="p">,</span> <span class="ow">and</span> <span class="n">notifying</span> <span class="n">PMCD</span> <span class="o">...</span>
+<span class="n">Removing</span> <span class="n">files</span> <span class="o">...</span>
+<span class="n">Check</span> <span class="n">elasticsearch</span> <span class="n">metrics</span> <span class="n">have</span> <span class="n">gone</span> <span class="n">away</span> <span class="o">...</span> <span class="n">OK</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="troubleshooting">
+<h2><a class="toc-backref" href="#id14">2.4. Troubleshooting</a><a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h2>
+<p>The following sections offer troubleshooting advice on the Performance Metrics Name Space (PMNS), missing and incomplete values for performance metrics, kernel metrics and the PMCD.</p>
+<p>Advice for troubleshooting the archive logging system is provided in Chapter 6, Archive Logging.
+⁠</p>
+<div class="section" id="performance-metrics-name-space">
+<h3><a class="toc-backref" href="#id15">2.4.1. Performance Metrics Name Space</a><a class="headerlink" href="#performance-metrics-name-space" title="Permalink to this headline">¶</a></h3>
+<p>To display the active PMNS, use the pminfo command; see the pminfo(1) man page.</p>
+<p>The PMNS at the collector host is updated whenever a PMDA is installed or removed, and may also be updated when new versions of PCP are installed. During these operations, the PMNS is typically updated by merging the (plaintext) namespace components from each installed PMDA. These separate PMNS components reside in the ${PCP_VAR_DIR}/pmns directory and are merged into the root file there.</p>
+</div>
+<div class="section" id="missing-and-incomplete-values-for-performance-metrics">
+<h3><a class="toc-backref" href="#id16">2.4.2. Missing and Incomplete Values for Performance Metrics</a><a class="headerlink" href="#missing-and-incomplete-values-for-performance-metrics" title="Permalink to this headline">¶</a></h3>
+<p>Missing or incomplete performance metric values are the result of their unavailability.
+⁠
+Metric Values Not Available
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^</p>
+<p>The following symptom has a known cause and resolution:</p>
+<p>Symptom:</p>
+<p>Values for some or all of the instances of a performance metric are not available.</p>
+<p>Cause:</p>
+<p>This can occur as a consequence of changes in the installation of modules (for example, a DBMS or an application package) that provide the performance instrumentation underpinning the PMDAs. Changes in the selection of modules that are installed or operational, along with changes in the version of these modules, may make metrics appear and disappear over time.</p>
+<p>In simple terms, the PMNS contains a metric name, but when that metric is requested, no PMDA at the collector host supports the metric.</p>
+<p>For archive logs, the collection of metrics to be logged is a subset of the metrics available, so utilities replaying from a PCP archive log may not have access to all of the metrics available from a live (PMCD) source.</p>
+<p>Resolution:</p>
+<p>Make sure the underlying instrumentation is available and the module is active. Ensure that the PMDA is running on the host to be monitored. If necessary, create a new archive log with a wider range of metrics to be logged.</p>
+</div>
+<div class="section" id="kernel-metrics-and-the-pmcd">
+<h3><a class="toc-backref" href="#id17">2.4.3. Kernel Metrics and the PMCD</a><a class="headerlink" href="#kernel-metrics-and-the-pmcd" title="Permalink to this headline">¶</a></h3>
+<p>The following issues involve the kernel metrics and the PMCD:</p>
+<p>Cannot connect to remote PMCD</p>
+<p>PMCD not reconfiguring after hang-up</p>
+<p>PMCD does not start</p>
+<div class="section" id="cannot-connect-to-remote-pmcd">
+<h4><a class="toc-backref" href="#id18">2.4.3.1. Cannot Connect to Remote PMCD</a><a class="headerlink" href="#cannot-connect-to-remote-pmcd" title="Permalink to this headline">¶</a></h4>
+<p>The following symptom has a known cause and resolution:</p>
+<p>Symptom:</p>
+<p>A PCP client tool (such as pmchart, pmie, or pmlogger) complains that it is unable to connect to a remote PMCD (or establish a PMAPI context), but you are sure that PMCD is active on the remote host.</p>
+<p>Cause:</p>
+<p>To avoid hanging applications for the duration of TCP/IP time outs, the PMAPI library implements its own time out when trying to establish a connection to a PMCD. If the connection to the host is over a slow network, then successful establishment of the connection may not be possible before the time out, and the attempt is abandoned.</p>
+<p>Alternatively, there may be a firewall in-between the client tool and PMCD which is blocking the connection attempt.</p>
+<p>Finally, PMCD may be running in a mode where it does not acept remote connections, or only listening on certain interface.</p>
+<p>Resolution:</p>
+<p>Establish that the PMCD on far-away-host is really alive, by connecting to its control port (TCP port number 44321 by default):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">telnet</span> <span class="n">far</span><span class="o">-</span><span class="n">away</span><span class="o">-</span><span class="n">host</span> <span class="mi">44321</span>
+</pre></div>
+</div>
+<p>This response indicates the PMCD is not running and needs restarting:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">Unable</span> <span class="n">to</span> <span class="n">connect</span> <span class="n">to</span> <span class="n">remote</span> <span class="n">host</span><span class="p">:</span> <span class="n">Connection</span> <span class="n">refused</span>
+</pre></div>
+</div>
+<p>To restart the PMCD on that host, enter the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre>${PCP_RC_DIR}/pmcd start
+</pre></div>
+</div>
+<p>This response indicates the PMCD is running:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">Connected</span> <span class="n">to</span> <span class="n">far</span><span class="o">-</span><span class="n">away</span><span class="o">-</span><span class="n">host</span>
+</pre></div>
+</div>
+<p>Interrupt the telnet session, increase the PMAPI time out by setting the PMCD_CONNECT_TIMEOUT environment variable to some number of seconds (60 for instance), and try the PCP client tool again.</p>
+<p>Verify that PMCD is not running in local-only mode, by looking for an enabled value (one) from:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">pminfo</span> <span class="o">-</span><span class="n">f</span> <span class="n">pmcd</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">local</span>
+</pre></div>
+</div>
+<p>This setting is controlled from the PMCD_LOCAL environment variable usually set via ${PCP_SYSCONFIG_DIR}/pmcd.</p>
+<p>If these techniques are ineffective, it is likely an intermediary firewall is blocking the client from accessing the PMCD port - resolving such issues is firewall-host platform-specific and cannot practically be covered here.</p>
+</div>
+<div class="section" id="pmcd-not-reconfiguring-after-sighup">
+<h4><a class="toc-backref" href="#id19">2.4.3.2. PMCD Not Reconfiguring after SIGHUP</a><a class="headerlink" href="#pmcd-not-reconfiguring-after-sighup" title="Permalink to this headline">¶</a></h4>
+<p>The following symptom has a known cause and resolution:</p>
+<p>Symptom</p>
+<p>PMCD does not reconfigure itself after receiving the SIGHUP signal.</p>
+<p>Cause:</p>
+<p>If there is a syntax error in ${PCP_PMCDCONF_PATH}, PMCD does not use the contents of the file. This can lead to situations in which the configuration file and PMCD’s internal state do not agree.</p>
+<p>Resolution:</p>
+<p>Always monitor PMCD’s log. For example, use the following command in another window when reconfiguring PMCD, to watch errors occur:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre>tail -f ${PCP_LOG_DIR}/pmcd/pmcd.log
+</pre></div>
+</div>
+</div>
+<div class="section" id="pmcd-does-not-start">
+<h4><a class="toc-backref" href="#id20">2.4.3.3. PMCD Does Not Start</a><a class="headerlink" href="#pmcd-does-not-start" title="Permalink to this headline">¶</a></h4>
+<p>The following symptom has a known cause and resolution:</p>
+<p>Symptom:</p>
+<p>If the following messages appear in the PMCD log (${PCP_LOG_DIR}/pmcd/pmcd.log), consider the cause and resolution:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre>pcp[27020] Error: OpenRequestSocket(44321) bind: Address already in
+use
+pcp[27020] Error: pmcd is already running
+pcp[27020] Error: pmcd not started due to errors!
+</pre></div>
+</div>
+<p>Cause:</p>
+<p>PMCD is already running or was terminated before it could clean up properly. The error occurs because the socket it advertises for client connections is already being used or has not been cleared by the kernel.</p>
+<p>Resolution:</p>
+<p>Start PMCD as root (superuser) by typing:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre>${PCP_RC_DIR}/pmcd start
+</pre></div>
+</div>
+<p>Any existing PMCD is shut down, and a new one is started in such a way that the symptomatic message should not appear.</p>
+<p>If you are starting PMCD this way and the symptomatic message appears, a problem has occurred with the connection to one of the deceased PMCD’s clients.</p>
+<p>This could happen when the network connection to a remote client is lost and PMCD is subsequently terminated. The system may attempt to keep the socket open for a time to allow the remote client a chance to reestablish the connection and read any outstanding data.</p>
+<p>The only solution in these circumstances is to wait until the socket times out and the kernel deletes it. This netstat command displays the status of the socket and any connections:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">netstat</span> <span class="o">-</span><span class="n">ant</span> <span class="o">|</span> <span class="n">grep</span> <span class="mi">44321</span>
+</pre></div>
+</div>
+<p>If the socket is in the FIN_WAIT or TIME_WAIT state, then you must wait for it to be deleted. Once the command above produces no output, PMCD may be restarted. Less commonly, you may have another program running on your system that uses the same Internet port number (44321) that PMCD uses.</p>
+<p>Refer to the PCPIntro(1) man page for a description of how to override the default PMCD port assignment using the PMCD_PORT environment variable.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="programming pcp.html" class="btn btn-neutral float-right" title="1. Programming Performance Co-Pilot" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="intro to pcp.html" class="btn btn-neutral float-left" title="1. Introduction to PCP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Arzoo
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+    <!-- Theme Analytics -->
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-XXXXXXX-1', 'auto');
+    ga('send', 'pageview');
+    </script>
+
+    
+   
+
+</body>
+</html>
