@@ -11,11 +11,11 @@ Performance data may be collected and exported from multiple sources, most notab
 
 There are several ways to extend PCP by programming certain of its components:
 
-By writing a Performance Metrics Domain Agent (PMDA) to collect performance metrics from an uncharted performance domain (Chapter 2, Writing a PMDA)
+ * By writing a Performance Metrics Domain Agent (PMDA) to collect performance metrics from an uncharted performance domain (Chapter 2, Writing a PMDA)
 
-By creating new analysis or visualization tools using documented functions from the Performance Metrics Application Programming Interface (PMAPI) (Chapter 3, PMAPI--The Performance Metrics API)
+ * By creating new analysis or visualization tools using documented functions from the Performance Metrics Application Programming Interface (PMAPI) (Chapter 3, PMAPI--The Performance Metrics API)
 
-By adding performance instrumentation to an application using facilities from PCP libraries, which offer both sampling and event tracing models.
+ * By adding performance instrumentation to an application using facilities from PCP libraries, which offer both sampling and event tracing models.
 
 Finally, the topic of customizing an installation is covered in the chapter on customizing and extending PCP service in the Performance Co-Pilot User's and Administrator's Guide.
 
@@ -30,13 +30,9 @@ PCP consists of numerous monitoring and collecting tools. Monitoring tools such 
 
 Systems supporting PCP services are broadly classified into two categories:
 
-Collector
+ **Collector**: Hosts that have the PMCD and one or more PMDAs running to collect and export performance metrics
 
-Hosts that have the PMCD and one or more PMDAs running to collect and export performance metrics
-
-Monitor
-
-Hosts that import performance metrics from one or more collector hosts to be consumed by tools to monitor, manage, or record the performance of the collector hosts
+ **Monitor**: Hosts that import performance metrics from one or more collector hosts to be consumed by tools to monitor, manage, or record the performance of the collector hosts
 
 Each PCP enabled host can operate as a collector, or a monitor, or both.
 
@@ -163,7 +159,7 @@ Building a PMDA
 A PMDA interacts with PMCD across one of several well-defined interfaces and protocol mechanisms. These implementation options are described in the Performance Co-Pilot User's and Administrator's Guide.
 
 .. Note::
-   It is strongly recommended that code for a new PMDA be based on the source of one of the  existing PMDAs below the ${PCP_PMDAS_DIR} directory.
+   It is strongly recommended that code for a new PMDA be based on the source of one of the  existing PMDAs below the ``${PCP_PMDAS_DIR}`` directory.
 
 In-Process (DSO) Method
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -172,12 +168,12 @@ This method of building a PMDA uses a Dynamic Shared Object (DSO) that is attach
 
 Daemon Process Method
 ^^^^^^^^^^^^^^^^^^^^^^
-Functionally, this method may be thought of as a DSO implementation with a standard main routine conversion wrapper so that communication with PMCD uses message passing rather than direct procedure calls. For some very basic examples, see the ${PCP_PMDAS_DIR}/trivial/trivial.c and ${PCP_PMDAS_DIR}/simple/simple.c source files.
+Functionally, this method may be thought of as a DSO implementation with a standard main routine conversion wrapper so that communication with PMCD uses message passing rather than direct procedure calls. For some very basic examples, see the ``${PCP_PMDAS_DIR}/trivial/trivial.c`` and ``${PCP_PMDAS_DIR}/simple/simple.c`` source files.
 
 The daemon PMDA is actually the most common, because it allows multiple threads of control, greater (different user) privileges when executing, and provides more resilient error encapsulation than the DSO method.
 
 .. Note::
-   Of particular interest for daemon PMDA writers, the ${PCP_PMDAS_DIR}/simple PMDA has implementations in C, Perl and Python.
+   Of particular interest for daemon PMDA writers, the ``${PCP_PMDAS_DIR}/simple`` PMDA has implementations in C, Perl and Python.
 
 Client Development and PMAPI
 ******************************

@@ -35,6 +35,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="2. Installing and Configuring Performance Co-Pilot" href="installing and configuring PCP.html" />
     <link rel="prev" title="Welcome to PCP Books’s documentation!" href="index.html" /> 
 </head>
 
@@ -125,6 +126,11 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="installing and configuring PCP.html">2. Installing and Configuring Performance Co-Pilot</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Programmer's Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="programming pcp.html">1. Programming Performance Co-Pilot</a></li>
 </ul>
 
             
@@ -283,11 +289,15 @@
 <div class="section" id="automated-operational-support">
 <h3><a class="toc-backref" href="#id10">1.1.8. Automated Operational Support</a><a class="headerlink" href="#automated-operational-support" title="Permalink to this headline">¶</a></h3>
 <p>For operational and production environments, PCP provides a framework with scripts to customize in order to automate the execution of ongoing tasks such as these:</p>
-<p>Centralized archive logging for multiple remote hosts</p>
-<p>Archive log rotation, consolidation, and culling</p>
-<p>Web-based publishing of charts showing snapshots of performance activity levels in the recent past</p>
-<p>Flexible alarm monitoring: parameterized rules to address common critical performance scenarios and facilities to customize and refine this monitoring</p>
-<p>Retrospective performance audits covering the recent past; for example, daily or weekly checks for performance regressions or quality of service problems</p>
+<blockquote>
+<div><ul class="simple">
+<li>Centralized archive logging for multiple remote hosts</li>
+<li>Archive log rotation, consolidation, and culling</li>
+<li>Web-based publishing of charts showing snapshots of performance activity levels in the recent past</li>
+<li>Flexible alarm monitoring: parameterized rules to address common critical performance scenarios and facilities to customize and refine this monitoring</li>
+<li>Retrospective performance audits covering the recent past; for example, daily or weekly checks for performance regressions or quality of service problems</li>
+</ul>
+</div></blockquote>
 </div>
 <div class="section" id="pcp-extensibility">
 <h3><a class="toc-backref" href="#id11">1.1.9. PCP Extensibility</a><a class="headerlink" href="#pcp-extensibility" title="Permalink to this headline">¶</a></h3>
@@ -329,15 +339,22 @@
 <img alt="_images/metric-domains.png" src="_images/metric-domains.png" />
 <p>Figure 1.1. Performance Metric Domains as Autonomous Collections of Data</p>
 <p>Each domain has an associated access method:</p>
-<p>The operating system kernel, including sub-system data structures - per-process resource consumption, network statistics, disk activity, or memory management instrumentation.</p>
-<p>A layered software service such as activity logs for a World Wide Web server or an email
-delivery server.</p>
-<p>An application program such as measured response time for a production application running a periodic and benign probe transaction (as often required in service level agreements), or rate of computation and throughput in jobs per minute for a batch stream.</p>
-<p>External equipment such as network routers and bridges.</p>
+<blockquote>
+<div><ul class="simple">
+<li>The operating system kernel, including sub-system data structures - per-process resource consumption, network statistics, disk activity, or memory management instrumentation.</li>
+<li>A layered software service such as activity logs for a World Wide Web server or an email delivery server.</li>
+<li>An application program such as measured response time for a production application running a periodic and benign probe transaction (as often required in service level agreements), or rate of computation and throughput in jobs per minute for a batch stream.</li>
+<li>External equipment such as network routers and bridges.</li>
+</ul>
+</div></blockquote>
 <p>For each domain, the set of performance metrics may be viewed as an abstract data type, with an associated set of methods that may be used to perform the following tasks:</p>
-<p>Interrogate the metadata that describes the syntax and semantics of the performance metrics</p>
-<p>Control (enable or disable) the collection of some or all of the metrics</p>
-<p>Extract instantiations (current values) for some or all of the metrics</p>
+<blockquote>
+<div><ul class="simple">
+<li>Interrogate the metadata that describes the syntax and semantics of the performance metrics</li>
+<li>Control (enable or disable) the collection of some or all of the metrics</li>
+<li>Extract instantiations (current values) for some or all of the metrics</li>
+</ul>
+</div></blockquote>
 <p>We refer to each functional domain as a performance metrics domain and assume that domains are functionally, architecturally, and administratively independent and autonomous. Obviously the set of performance metrics domains available on any host is variable, and changes with time as software and hardware are installed and removed.</p>
 <p>The number of performance metrics domains may be further enlarged in cluster-based or network-based configurations, where there is potentially an instance of each performance metrics domain on each node. Hence, the management of performance metrics domains must be both extensible at a particular host and distributed across a number of hosts.</p>
 <p>Each performance metrics domain on a particular host must be assigned a unique Performance Metric Identifier (PMID). In practice, this means unique identifiers are assigned globally for each performance metrics domain type. For example, the same identifier would be used for the Apache Web Server performance metrics domain on all hosts.</p>
@@ -362,7 +379,7 @@ delivery server.</p>
 <img alt="_images/pmns-small.png" src="_images/pmns-small.png" />
 <p>Figure 1.3. Small Performance Metrics Name Space (PMNS)</p>
 <p>In this subsection, the following are valid names for performance metrics:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">kernel</span><span class="o">.</span><span class="n">percpu</span><span class="o">.</span><span class="n">syscall</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kernel</span><span class="o">.</span><span class="n">percpu</span><span class="o">.</span><span class="n">syscall</span>
 <span class="n">network</span><span class="o">.</span><span class="n">tcp</span><span class="o">.</span><span class="n">rcvpack</span>
 <span class="n">hw</span><span class="o">.</span><span class="n">router</span><span class="o">.</span><span class="n">recv</span><span class="o">.</span><span class="n">total_util</span>
 </pre></div>
@@ -372,14 +389,17 @@ delivery server.</p>
 <div class="section" id="descriptions-for-performance-metrics">
 <h3><a class="toc-backref" href="#id21">1.2.7. Descriptions for Performance Metrics</a><a class="headerlink" href="#descriptions-for-performance-metrics" title="Permalink to this headline">¶</a></h3>
 <p>Through the various performance metric domains, the PCP must support a wide range of formats and semantics for performance metrics. This metadata describing the performance metrics includes the following:</p>
-<p>The internal identifier, Performance Metric Identifier (PMID), for the metric</p>
-<p>The format and encoding for the values of the metric, for example, an unsigned 32-bit
-integer or a string or a 64-bit IEEE format floating point number</p>
-<p>The semantics of the metric, particularly the interpretation of the values as free-running counters or instantaneous values</p>
-<p>The dimensionality of the values, in the dimensions of events, space, and time</p>
-<p>The scale of values; for example, bytes, kilobytes (KB), or megabytes (MB) for the space dimension</p>
-<p>An indication if the metric may have one or many associated values</p>
-<p>Short (and extended) help text describing the metric</p>
+<blockquote>
+<div><ul class="simple">
+<li>The internal identifier, Performance Metric Identifier (PMID), for the metric</li>
+<li>The format and encoding for the values of the metric, for example, an unsigned 32-bit integer or a string or a 64-bit IEEE format floating point number</li>
+<li>The semantics of the metric, particularly the interpretation of the values as free-running counters or instantaneous values</li>
+<li>The dimensionality of the values, in the dimensions of events, space, and time</li>
+<li>The scale of values; for example, bytes, kilobytes (KB), or megabytes (MB) for the space dimension</li>
+<li>An indication if the metric may have one or many associated values</li>
+<li>Short (and extended) help text describing the metric</li>
+</ul>
+</div></blockquote>
 <p>For each metric, this metadata is defined within the associated PMDA, and PCP arranges for the information to be exported to performance tools that use the metadata when interpreting the values for each metric.</p>
 </div>
 <div class="section" id="values-for-performance-metrics">
@@ -434,10 +454,10 @@ integer or a string or a 64-bit IEEE format floating point number</p>
 <h3><a class="toc-backref" href="#id25">1.2.9. Collector and Monitor Roles</a><a class="headerlink" href="#collector-and-monitor-roles" title="Permalink to this headline">¶</a></h3>
 <p>Hosts supporting PCP services are broadly classified into two categories:
 ⁠</p>
-<p>Collector</p>
-<p>Hosts that have pmcd and one or more performance metric domain agents (PMDAs) running to collect and export performance metrics</p>
-<p>Monitor</p>
-<p>Hosts that import performance metrics from one or more collector hosts to be consumed by tools to monitor, manage, or record the performance of the collector hosts</p>
+<blockquote>
+<div><p><strong>Collector</strong> : Hosts that have pmcd and one or more performance metric domain agents (PMDAs) running to collect and export performance metrics</p>
+<p><strong>Monitor</strong> : Hosts that import performance metrics from one or more collector hosts to be consumed by tools to monitor, manage, or record the performance of the collector hosts</p>
+</div></blockquote>
 <p>Each PCP enabled host can operate as a collector, a monitor, or both.</p>
 </div>
 <div class="section" id="retrospective-sources-of-performance-metrics">
@@ -452,19 +472,23 @@ integer or a string or a 64-bit IEEE format floating point number</p>
 <h3><a class="toc-backref" href="#id27">1.2.11. Product Extensibility</a><a class="headerlink" href="#product-extensibility" title="Permalink to this headline">¶</a></h3>
 <p>Much of the PCP software’s potential for attacking difficult performance problems in production environments comes from the design philosophy that considers extensibility to be critically important.</p>
 <p>The performance analyst can take advantage of the PCP infrastructure to deploy value-added performance monitoring tools and services. Here are some examples:</p>
-<p>Easy extension of the PCP collector to accommodate new performance metrics and new sources of performance metrics, in particular using the interfaces of a special-purpose library to develop new PMDAs (see the pmda(3) man page)</p>
-<p>Use of libraries (libpcp_pmda and libpcp_mmv) to aid in the development of new capabilities to export performance metrics from local applications</p>
-<p>Operation on any performance metric using generalized toolkits</p>
-<p>Distribution of PCP components such as collectors across the network, placing the service where it can do the most good</p>
-<p>Dynamic adjustment to changes in system configuration</p>
-<p>Flexible customization built into the design of all PCP tools</p>
-<p>Creation of new monitor applications, using the routines described in the pmapi(3) man page</p>
+<blockquote>
+<div><ul class="simple">
+<li>Easy extension of the PCP collector to accommodate new performance metrics and new sources of performance metrics, in particular using the interfaces of a special-purpose library to develop new PMDAs (see the pmda(3) man page)</li>
+<li>Use of libraries (libpcp_pmda and libpcp_mmv) to aid in the development of new capabilities to export performance metrics from local applications</li>
+<li>Operation on any performance metric using generalized toolkits</li>
+<li>Distribution of PCP components such as collectors across the network, placing the service where it can do the most good</li>
+<li>Dynamic adjustment to changes in system configuration</li>
+<li>Flexible customization built into the design of all PCP tools</li>
+<li>Creation of new monitor applications, using the routines described in the pmapi(3) man page</li>
+</ul>
+</div></blockquote>
 </div>
 </div>
 <div class="section" id="overview-of-component-software">
 <h2><a class="toc-backref" href="#id28">1.3. Overview of Component Software</a><a class="headerlink" href="#overview-of-component-software" title="Permalink to this headline">¶</a></h2>
 <p>Performance Co-Pilot (PCP) is composed of both text-based and graphical tools. Each tool is fully documented by a man page. These man pages are named after the tools or commands they describe, and are accessible through the man command. For example, to see the pminfo(1) man page for the pminfo command, enter this command:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">man</span> <span class="n">pminfo</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">man</span> <span class="n">pminfo</span>
 </pre></div>
 </div>
 <p>A representative list of PCP tools and commands, grouped by functionality, is provided in the following four sections.</p>
@@ -603,8 +627,8 @@ integer or a string or a 64-bit IEEE format floating point number</p>
 <p>Adds a subtree of new names into a PMNS, as used by the components of PCP.</p>
 <p><strong>pmnsdel</strong></p>
 <p>Removes a subtree of names from a PMNS, as used by the components of the PCP.</p>
-<p><strong>pmnsmerge</strong>
-Merges multiple PMNS files together, as used by the components of PCP.</p>
+<p><strong>pmnsmerge</strong></p>
+<p>Merges multiple PMNS files together, as used by the components of PCP.</p>
 <p><strong>pmstore</strong></p>
 <p>Reinitializes counters or assigns new values to metrics that act as control variables. The command changes the current values for the specified instances of a single performance metric.</p>
 </div>
@@ -623,8 +647,8 @@ Merges multiple PMNS files together, as used by the components of PCP.</p>
 <p>Is a simple client that uses the PMAPI to report some high-level system performance metrics.</p>
 <p><strong>pmda</strong></p>
 <p>Is a library used by many shipped PMDAs to communicate with a pmcd process. It can expedite the development of new and custom PMDAs.</p>
-<p><strong>pmgenmap</strong>
-Generates C declarations and cpp(1) macros to aid the development of customized programs that use the facilities of PCP. It is a PMDA development tool.</p>
+<p><strong>pmgenmap</strong></p>
+<p>Generates C declarations and cpp(1) macros to aid the development of customized programs that use the facilities of PCP. It is a PMDA development tool.</p>
 </div>
 </div>
 </div>
@@ -636,6 +660,8 @@ Generates C declarations and cpp(1) macros to aid the development of customized 
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="installing and configuring PCP.html" class="btn btn-neutral float-right" title="2. Installing and Configuring Performance Co-Pilot" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="index.html" class="btn btn-neutral float-left" title="Welcome to PCP Books’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

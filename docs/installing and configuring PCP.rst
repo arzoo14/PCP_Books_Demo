@@ -12,7 +12,7 @@ Product Structure
 In a typical deployment, Performance Co-Pilot (PCP) would be installed in a collector configuration on one or more hosts, from which the performance information could then be collected, and in a monitor configuration on one or more workstations, from which the performance of the server systems could then be monitored.
 
 On some platforms Performance Co-Pilot is presented as multiple packages; typically separating the server components from graphical user interfaces and documentation.
-⁠
+
 pcp-X.Y.Z-rev
 
 package for core PCP
@@ -27,82 +27,69 @@ package for online PCP documentation
 
 ⁠Performance Metrics Collection Daemon (PMCD)
 *********************************************
-On each Performance Co-Pilot (PCP) collection system, you must be certain that the pmcd daemon is running. This daemon coordinates the gathering and exporting of performance statistics in response to requests from the PCP monitoring tools.
+On each Performance Co-Pilot (PCP) collection system, you must be certain that the ``pmcd`` daemon is running. This daemon coordinates the gathering and exporting of performance statistics in response to requests from the PCP monitoring tools.
 ⁠
 
 Starting and Stopping the PMCD
 ================================
 
-To start the daemon, enter the following commands as root on each PCP collection system::
+To start the daemon, enter the following commands as ``root`` on each PCP collection system::
 
  chkconfig pmcd on 
  ${PCP_RC_DIR}/pmcd start 
 
 These commands instruct the system to start the daemon immediately, and again whenever the system is booted. It is not necessary to start the daemon on the monitoring system unless you wish to collect performance information from it as well.
 
-To stop pmcd immediately on a PCP collection system, enter the following command::
+To stop ``pmcd`` immediately on a PCP collection system, enter the following command::
 
  ${PCP_RC_DIR}/pmcd stop
 
 Restarting an Unresponsive PMCD
 ================================
 
-Sometimes, if a daemon is not responding on a PCP collection system, the problem can be resolved by stopping and then immediately restarting a fresh instance of the daemon. If you need to stop and then immediately restart PMCD on a PCP collection system, use the start argument provided with the script in ${PCP_RC_DIR}. The command syntax is, as follows::
+Sometimes, if a daemon is not responding on a PCP collection system, the problem can be resolved by stopping and then immediately restarting a fresh instance of the daemon. If you need to stop and then immediately restart PMCD on a PCP collection system, use the ``start`` argument provided with the script in ``${PCP_RC_DIR}``. The command syntax is, as follows::
 
  ${PCP_RC_DIR}/pmcd start  
 
-On startup, pmcd looks for a configuration file at ${PCP_PMCDCONF_PATH}. This file specifies which agents cover which performance metrics domains and how PMCD should make contact with the agents. A comprehensive description of the configuration file syntax and semantics can be found in the pmcd(1) man page.
+On startup, ``pmcd`` looks for a configuration file at ``${PCP_PMCDCONF_PATH}``. This file specifies which agents cover which performance metrics domains and how PMCD should make contact with the agents. A comprehensive description of the configuration file syntax and semantics can be found in the ``pmcd(1)`` man page.
 
-If the configuration is changed, pmcd reconfigures itself when it receives the SIGHUP signal. Use the following command to send the SIGHUP signal to the daemon::
+If the configuration is changed, ``pmcd`` reconfigures itself when it receives the ``SIGHUP`` signal. Use the following command to send the ``SIGHUP`` signal to the daemon::
 
  ${PCP_BINADM_DIR}/pmsignal -a -s HUP pmcd
 
-This is also useful when one of the PMDAs managed by pmcd has failed or has been terminated by pmcd. Upon receipt of the SIGHUP signal, pmcd restarts any PMDA that is configured but inactive. The exception to this rule is the case of a PMDA which must run with superuser privileges (where possible, this is avoided) - for these PMDAs, a full pmcd restart must be performed, using the process described earlier (not SIGHUP).
+This is also useful when one of the PMDAs managed by ``pmcd`` has failed or has been terminated by ``pmcd``. Upon receipt of the ``SIGHUP`` signal, ``pmcd`` restarts any PMDA that is configured but inactive. The exception to this rule is the case of a PMDA which must run with superuser privileges (where possible, this is avoided) - for these PMDAs, a full ``pmcd`` restart must be performed, using the process described earlier (not SIGHUP).
 
 
 PMCD Diagnostics and Error Messages
 ====================================
 
-If there is a problem with **pmcd**, the first place to investigate should be the **pmcd.log** file. By default, this file is in the **${PCP_LOG_DIR}/pmcd** directory.
+If there is a problem with ``pmcd``, the first place to investigate should be the ``pmcd.log`` file. By default, this file is in the ``${PCP_LOG_DIR}/pmcd`` directory.
 
 PMCD Options and Configuration Files
 =====================================
 
-There are two files that control PMCD operation. These are the ${PCP_PMCDCONF_PATH} and ${PCP_PMCDOPTIONS_PATH} files. The pmcd.options file contains the command line options used with PMCD; it is read when the daemon is invoked by ${PCP_RC_DIR}/pmcd. The pmcd.conf file contains configuration information regarding domain agents and the metrics that they monitor. These configuration files are described in the following sections.
+There are two files that control PMCD operation. These are the ``${PCP_PMCDCONF_PATH}`` and ``${PCP_PMCDOPTIONS_PATH}`` files. The ``pmcd.options`` file contains the command line options used with PMCD; it is read when the daemon is invoked by ``${PCP_RC_DIR}/pmcd``. The ``pmcd.conf`` file contains configuration information regarding domain agents and the metrics that they monitor. These configuration files are described in the following sections.
 
 
 The pmcd.options File
 ^^^^^^^^^^^^^^^^^^^^^^
 
-Command line options for the PMCD are stored in the ${PCP_PMCDOPTIONS_PATH} file. The PMCD can be invoked directly from a shell prompt, or it can be invoked by ${PCP_RC_DIR}/pmcd as part of the boot process. It is usual and normal to invoke it using ${PCP_RC_DIR}/pmcd, reserving shell invocation for debugging purposes.
+Command line options for the PMCD are stored in the ``${PCP_PMCDOPTIONS_PATH}`` file. The PMCD can be invoked directly from a shell prompt, or it can be invoked by ``${PCP_RC_DIR}/pmcd`` as part of the boot process. It is usual and normal to invoke it using ``${PCP_RC_DIR}/pmcd``, reserving shell invocation for debugging purposes.
 
-The PMCD accepts certain command line options to control its execution, and these options are placed in the pmcd.options file when ${PCP_RC_DIR}/pmcd is being used to start the daemon. The following options (amongst others) are available:
+The PMCD accepts certain command line options to control its execution, and these options are placed in the ``pmcd.options`` file when ``${PCP_RC_DIR}/pmcd`` is being used to start the daemon. The following options (amongst others) are available:
 
--i  address
+.. csv-table:: 
+   :widths: 20, 50
 
-For hosts with more than one network interface, this option specifies the interface on which this instance of the PMCD accepts connections. Multiple -i options may be specified. The default in the absence of any -i option is for PMCD to accept connections on all interfaces.
+   "**-i** *address*","For hosts with more than one network interface, this option specifies the interface on which this instance of the PMCD accepts connections. Multiple ``-i`` options may be specified. The default in the absence of any ``-i`` option is for PMCD to accept connections on all interfaces."
+   "**-l** *file*","Specifies a log file. If no ``-l`` option is specified, the log file name is ``pmcd.log`` and it is created in the directory ``${PCP_LOG_DIR}/pmcd/``."
+   "**-s** *file*","Specifies the path to a local unix domain socket (for platforms supporting this socket family only). The default value is ``${PCP_RUN_DIR}/pmcd.socket``."
+   "**-t** *seconds*","Specifies the amount of time, in seconds, before PMCD times out on protocol data unit (PDU) exchanges with PMDAs. If no time out is specified, the default is five seconds. Setting time out to zero disables time outs (not recommended, PMDAs should always respond quickly).The time out may be dynamically modified by storing the number of seconds into the metric ``pmcd.control.timeout`` using ``pmstore``."
+   "**-T** *mask*","Specifies whether connection and PDU tracing are turned on for debugging purposes."
 
--l  file
+See the ``pmcd(1)`` man page for complete information on these options.
 
-Specifies a log file. If no -l option is specified, the log file name is pmcd.log and it is created in the directory ${PCP_LOG_DIR}/pmcd/.
-
--s  file
-
-Specifies the path to a local unix domain socket (for platforms supporting this socket family only). The default value is ${PCP_RUN_DIR}/pmcd.socket.
-
--t  seconds
-
-Specifies the amount of time, in seconds, before PMCD times out on protocol data unit (PDU) exchanges with PMDAs. If no time out is specified, the default is five seconds. Setting time out to zero disables time outs (not recommended, PMDAs should always respond quickly).
-
-The time out may be dynamically modified by storing the number of seconds into the metric pmcd.control.timeout using pmstore.
-
--T  mask
-
-Specifies whether connection and PDU tracing are turned on for debugging purposes.
-
-See the pmcd(1) man page for complete information on these options.
-
-The default pmcd.options file shipped with PCP is similar to the following::
+The default ``pmcd.options`` file shipped with PCP is similar to the following::
 
  # command-line options to pmcd, uncomment/edit lines as required
  
@@ -132,16 +119,16 @@ The default pmcd.options file shipped with PCP is similar to the following::
  # the PCP rc scripts. See pmcd(1) and PMAPI(3).
  # PMCD_WAIT_TIMEOUT=120
 
-The most commonly used options have been placed in this file for your convenience. To uncomment and use an option, simply remove the pound sign (#) at the beginning of the line with the option you wish to use. Restart pmcd for the change to take effect; that is, as superuser, enter the command::
+The most commonly used options have been placed in this file for your convenience. To uncomment and use an option, simply remove the pound sign (#) at the beginning of the line with the option you wish to use. Restart ``pmcd`` for the change to take effect; that is, as superuser, enter the command::
 
  ${PCP_RC_DIR}/pmcd start
 
 The pmcd.conf File
 ^^^^^^^^^^^^^^^^^^^
 
-When the PMCD is invoked, it reads its configuration file, which is ${PCP_PMCDCONF_PATH}. This file contains entries that specify the PMDAs used by this instance of the PMCD and which metrics are covered by these PMDAs. Also, you may specify access control rules in this file for the various hosts, users and groups on your network. This file is described completely in the pmcd(1) man page.
+When the PMCD is invoked, it reads its configuration file, which is ``${PCP_PMCDCONF_PATH}``. This file contains entries that specify the PMDAs used by this instance of the PMCD and which metrics are covered by these PMDAs. Also, you may specify access control rules in this file for the various hosts, users and groups on your network. This file is described completely in the pmcd(1) man page.
 
-With standard PCP operation (even if you have not created and added your own PMDAs), you might need to edit this file in order to add any additional access control you wish to impose. If you do not add access control rules, all access for all operations is granted to the local host, and read-only access is granted to remote hosts. The pmcd.conf file is automatically generated during the software build process and on Linux, for example, is similar to the following::
+With standard PCP operation (even if you have not created and added your own PMDAs), you might need to edit this file in order to add any additional access control you wish to impose. If you do not add access control rules, all access for all operations is granted to the local host, and read-only access is granted to remote hosts. The ``pmcd.conf`` file is automatically generated during the software build process and on Linux, for example, is similar to the following::
 
   Performance Metrics Domain Specifications
  # 
@@ -165,11 +152,11 @@ With standard PCP operation (even if you have not created and added your own PMD
 
 Each entry in this configuration file contains rules that specify how to connect the PMCD to a particular PMDA and which metrics the PMDA monitors. A PMDA may be attached as a Dynamic Shared Object (DSO) or by using a socket or a pair of pipes. The distinction between these attachment methods is described below.
 
-An entry in the pmcd.conf file looks like this::
+An entry in the ``pmcd.conf`` file looks like this::
 
  label_name   domain_number   type   path
 
-The label_name field specifies a name for the PMDA. The domain_number is an integer value that specifies a domain of metrics for the PMDA. The type field indicates the type of entry (DSO, socket, or pipe). The path field is for additional information, and varies according to the type of entry.
+The *label_name* field specifies a name for the PMDA. The *domain_number* is an integer value that specifies a domain of metrics for the PMDA. The *type* field indicates the type of entry (DSO, socket, or pipe). The *path* field is for additional information, and varies according to the type of entry.
 
 The following rules are common to DSO, socket, and pipe syntax:
 
@@ -197,9 +184,9 @@ The name of an initialization function called when the DSO is loaded.
 
 *path*
 
-Designates the location of the DSO. An absolute path must be used. On most platforms this will be a so suffixed file, on Windows it is a dll, and on Mac OS X it is a dylib file.
+Designates the location of the DSO. An absolute path must be used. On most platforms this will be a ``so`` suffixed file, on Windows it is a ``dll``, and on Mac OS X it is a ``dylib`` file.
 
-Socket entries in the pmcd.conf file follow this syntax::
+Socket entries in the ``pmcd.conf`` file follow this syntax::
 
  label_name domain_number socket addr_family address command [args] 
 
@@ -225,7 +212,7 @@ Specifies a command to start the PMDA when the PMCD is invoked and reads the con
 
 Optional arguments for command.
 
-Pipe entries in the pmcd.conf file follow this syntax::
+Pipe entries in the ``pmcd.conf`` file follow this syntax::
 
  label_name domain_number pipe protocol command [args]
 
@@ -252,7 +239,7 @@ Optional arguments for command.
 Controlling Access to PMCD with pmcd.conf
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-You can place this option extension in the pmcd.conf file to control access to performance metric data based on hosts, users and groups. To add an access control section, begin by placing the following line at the end of your pmcd.conf file::
+You can place this option extension in the ``pmcd.conf`` file to control access to performance metric data based on hosts, users and groups. To add an access control section, begin by placing the following line at the end of your ``pmcd.conf`` file::
 
  [access]
 
@@ -264,11 +251,11 @@ Below this line, you can add entries of the following forms::
 
 The keywords users, groups and hosts can be used in either plural or singular form.
 
-The userlist and grouplist fields are comma-separated lists of authenticated users and groups from the local /etc/passwd and /etc/groups files, NIS (network information service) or LDAP (lightweight directory access protocol) service.
+The userlist and grouplist fields are comma-separated lists of authenticated users and groups from the local ``/etc/passwd`` and ``/etc/groups`` files, NIS (network information service) or LDAP (lightweight directory access protocol) service.
 
 The hostlist is a comma-separated list of host identifiers; the following rules apply:
 
-Host names must be in the local system's /etc/hosts file or known to the local DNS (domain name service).
+Host names must be in the local system's ``/etc/hosts`` file or known to the local DNS (domain name service).
 
 IP and IPv6 addresses may be given in the usual numeric notations.
 
@@ -311,7 +298,7 @@ Allows retrieval of information from the PMCD. This may be information about a m
 
 Allows the PMCD to store metric values in PMDAs that permit store operations. Be cautious in allowing this operation, because it may be a security opening in large networks, although the PMDAs shipped with the PCP package typically reject store operations, except for selected performance metrics where the effect is benign.
 
-For example, here is a sample access control portion of a ${PCP_PMCDCONF_PATH} file::
+For example, here is a sample access control portion of a ``${PCP_PMCDCONF_PATH}`` file::
 
  allow hosts babylon, moomba : all ; 
  disallow user sam : all ;
@@ -319,7 +306,7 @@ For example, here is a sample access control portion of a ${PCP_PMCDCONF_PATH} f
  allow hosts 192.127.4.* : fetch ; 
  disallow host gate-inet : store ;
 
-Complete information on access control syntax rules in the pmcd.conf file can be found in the pmcd(1) man page.
+Complete information on access control syntax rules in the ``pmcd.conf`` file can be found in the ``pmcd(1)`` man page.
 
 Managing Optional PMDAs
 ************************
@@ -328,9 +315,9 @@ Some Performance Metrics Domain Agents (PMDAs) shipped with Performance Co-Pilot
 
 Other PMDAs are designed for optional activation and require some user action to make them operational. In some cases these PMDAs expect local site customization to reflect the operational environment, the system configuration, or the production workload. This customization is typically supported by interactive installation scripts for each PMDA.
 
-Each PMDA has its own directory located below ${PCP_PMDAS_DIR}. Each directory contains a Remove script to unconfigure the PMDA, remove the associated metrics from the PMNS, and restart the  pmcd daemon; and an Install script to install the PMDA, update the PMNS, and restart the PMCD daemon.
+Each PMDA has its own directory located below ``${PCP_PMDAS_DIR}``. Each directory contains a Remove script to unconfigure the PMDA, remove the associated metrics from the PMNS, and restart the  pmcd daemon; and an Install script to install the PMDA, update the PMNS, and restart the PMCD daemon.
 
-As a shortcut mechanism to support automated PMDA installation, a file named .NeedInstall can be created in a PMDA directory below ${PCP_PMDAS_DIR}. The next restart of PCP services will invoke that PMDAs installation automatically, with default options taken.
+As a shortcut mechanism to support automated PMDA installation, a file named .NeedInstall can be created in a PMDA directory below ``${PCP_PMDAS_DIR}``. The next restart of PCP services will invoke that PMDAs installation automatically, with default options taken.
 ⁠
 
 PMDA Installation on a PCP Collector Host
@@ -350,7 +337,7 @@ You need to update the PMNS, configure the PMDA, and notify PMCD. The Install sc
 
     cat domain.h
 
-Check that there is no conflict in the PMDs as defined in ${PCP_VAR_DIR}/pmns/stdpmid and the other PMDAs currently in use (listed in ${PCP_PMCDCONF_PATH}). Edit domain.h to assign the new domain number if there is a conflict (this is highly unlikely to occur in a regular PCP installation).
+Check that there is no conflict in the PMDs as defined in ``${PCP_VAR_DIR}/pmns/stdpmid`` and the other PMDAs currently in use (listed in ``${PCP_PMCDCONF_PATH}``). Edit ``domain.h`` to assign the new domain number if there is a conflict (this is highly unlikely to occur in a regular PCP installation).
 
 4. Enter the following command::
 
@@ -437,25 +424,25 @@ Advice for troubleshooting the archive logging system is provided in Chapter 6, 
 Performance Metrics Name Space
 ================================
 
-To display the active PMNS, use the pminfo command; see the pminfo(1) man page.
+To display the active PMNS, use the ``pminfo`` command; see the ``pminfo(1)`` man page.
 
-The PMNS at the collector host is updated whenever a PMDA is installed or removed, and may also be updated when new versions of PCP are installed. During these operations, the PMNS is typically updated by merging the (plaintext) namespace components from each installed PMDA. These separate PMNS components reside in the ${PCP_VAR_DIR}/pmns directory and are merged into the root file there.
+The PMNS at the collector host is updated whenever a PMDA is installed or removed, and may also be updated when new versions of PCP are installed. During these operations, the PMNS is typically updated by merging the (plaintext) namespace components from each installed PMDA. These separate PMNS components reside in the ``${PCP_VAR_DIR}/pmns`` directory and are merged into the ``root`` file there.
 
 Missing and Incomplete Values for Performance Metrics
 ======================================================
 
 Missing or incomplete performance metric values are the result of their unavailability.
-⁠
+
 Metric Values Not Available
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The following symptom has a known cause and resolution:
 
-Symptom:
+**Symptom:**
 
 Values for some or all of the instances of a performance metric are not available.
 
-Cause:
+**Cause:**
 
 This can occur as a consequence of changes in the installation of modules (for example, a DBMS or an application package) that provide the performance instrumentation underpinning the PMDAs. Changes in the selection of modules that are installed or operational, along with changes in the version of these modules, may make metrics appear and disappear over time.
 
@@ -463,7 +450,7 @@ In simple terms, the PMNS contains a metric name, but when that metric is reques
 
 For archive logs, the collection of metrics to be logged is a subset of the metrics available, so utilities replaying from a PCP archive log may not have access to all of the metrics available from a live (PMCD) source.
 
-Resolution:
+**Resolution:**
 
 Make sure the underlying instrumentation is available and the module is active. Ensure that the PMDA is running on the host to be monitored. If necessary, create a new archive log with a wider range of metrics to be logged.
 
@@ -472,22 +459,22 @@ Kernel Metrics and the PMCD
 
 The following issues involve the kernel metrics and the PMCD:
 
-Cannot connect to remote PMCD
+ * Cannot connect to remote PMCD
 
-PMCD not reconfiguring after hang-up
+ * PMCD not reconfiguring after hang-up
 
-PMCD does not start
+ * PMCD does not start
 
 Cannot Connect to Remote PMCD
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The following symptom has a known cause and resolution:
 
-Symptom:
+**Symptom:**
 
 A PCP client tool (such as pmchart, pmie, or pmlogger) complains that it is unable to connect to a remote PMCD (or establish a PMAPI context), but you are sure that PMCD is active on the remote host.
 
-Cause:
+**Cause:**
 
 To avoid hanging applications for the duration of TCP/IP time outs, the PMAPI library implements its own time out when trying to establish a connection to a PMCD. If the connection to the host is over a slow network, then successful establishment of the connection may not be possible before the time out, and the attempt is abandoned.
 
@@ -495,7 +482,7 @@ Alternatively, there may be a firewall in-between the client tool and PMCD which
 
 Finally, PMCD may be running in a mode where it does not acept remote connections, or only listening on certain interface.
 
-Resolution:
+**Resolution:**
 
 Establish that the PMCD on far-away-host is really alive, by connecting to its control port (TCP port number 44321 by default)::
 
@@ -513,13 +500,13 @@ This response indicates the PMCD is running::
 
  Connected to far-away-host
 
-Interrupt the telnet session, increase the PMAPI time out by setting the PMCD_CONNECT_TIMEOUT environment variable to some number of seconds (60 for instance), and try the PCP client tool again.
+Interrupt the telnet session, increase the ``PMAPI`` time out by setting the ``PMCD_CONNECT_TIMEOUT`` environment variable to some number of seconds (60 for instance), and try the PCP client tool again.
 
 Verify that PMCD is not running in local-only mode, by looking for an enabled value (one) from::
 
  pminfo -f pmcd.feature.local
 
-This setting is controlled from the PMCD_LOCAL environment variable usually set via ${PCP_SYSCONFIG_DIR}/pmcd.
+This setting is controlled from the ``PMCD_LOCAL`` environment variable usually set via ``${PCP_SYSCONFIG_DIR}/pmcd``.
 
 If these techniques are ineffective, it is likely an intermediary firewall is blocking the client from accessing the PMCD port - resolving such issues is firewall-host platform-specific and cannot practically be covered here.
 
@@ -528,15 +515,15 @@ PMCD Not Reconfiguring after SIGHUP
 
 The following symptom has a known cause and resolution:
 
-Symptom
+**Symptom**
 
 PMCD does not reconfigure itself after receiving the SIGHUP signal.
 
-Cause:
+**Cause**
 
-If there is a syntax error in ${PCP_PMCDCONF_PATH}, PMCD does not use the contents of the file. This can lead to situations in which the configuration file and PMCD's internal state do not agree.
+If there is a syntax error in ``${PCP_PMCDCONF_PATH}``, PMCD does not use the contents of the file. This can lead to situations in which the configuration file and PMCD's internal state do not agree.
 
-Resolution:
+**Resolution**
 
 Always monitor PMCD's log. For example, use the following command in another window when reconfiguring PMCD, to watch errors occur::
 
@@ -547,20 +534,20 @@ PMCD Does Not Start
 
 The following symptom has a known cause and resolution:
 
-Symptom:
+**Symptom**
 
-If the following messages appear in the PMCD log (${PCP_LOG_DIR}/pmcd/pmcd.log), consider the cause and resolution::
+If the following messages appear in the PMCD log (``${PCP_LOG_DIR}/pmcd/pmcd.log``), consider the cause and resolution::
 
  pcp[27020] Error: OpenRequestSocket(44321) bind: Address already in
  use
  pcp[27020] Error: pmcd is already running
  pcp[27020] Error: pmcd not started due to errors!
 
-Cause:
+**Cause**
 
 PMCD is already running or was terminated before it could clean up properly. The error occurs because the socket it advertises for client connections is already being used or has not been cleared by the kernel.
 
-Resolution:
+**Resolution**
 
 Start PMCD as root (superuser) by typing::
 
@@ -572,13 +559,13 @@ If you are starting PMCD this way and the symptomatic message appears, a problem
 
 This could happen when the network connection to a remote client is lost and PMCD is subsequently terminated. The system may attempt to keep the socket open for a time to allow the remote client a chance to reestablish the connection and read any outstanding data.
 
-The only solution in these circumstances is to wait until the socket times out and the kernel deletes it. This netstat command displays the status of the socket and any connections::
+The only solution in these circumstances is to wait until the socket times out and the kernel deletes it. This ``netstat`` command displays the status of the socket and any connections::
 
  netstat -ant | grep 44321
 
-If the socket is in the FIN_WAIT or TIME_WAIT state, then you must wait for it to be deleted. Once the command above produces no output, PMCD may be restarted. Less commonly, you may have another program running on your system that uses the same Internet port number (44321) that PMCD uses.
+If the socket is in the ``FIN_WAIT`` or ``TIME_WAIT`` state, then you must wait for it to be deleted. Once the command above produces no output, PMCD may be restarted. Less commonly, you may have another program running on your system that uses the same Internet port number (44321) that PMCD uses.
 
-Refer to the PCPIntro(1) man page for a description of how to override the default PMCD port assignment using the PMCD_PORT environment variable.
+Refer to the ``PCPIntro(1)`` man page for a description of how to override the default PMCD port assignment using the ``PMCD_PORT`` environment variable.
 
 
 

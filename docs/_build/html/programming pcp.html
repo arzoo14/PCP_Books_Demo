@@ -181,9 +181,13 @@
 <p>PCP provides unparalleled power to quickly isolate and understand performance behavior, resource utilization, activity levels and performance bottlenecks.</p>
 <p>Performance data may be collected and exported from multiple sources, most notably the hardware platform, the operating system kernel, layered services, and end-user applications.</p>
 <p>There are several ways to extend PCP by programming certain of its components:</p>
-<p>By writing a Performance Metrics Domain Agent (PMDA) to collect performance metrics from an uncharted performance domain (Chapter 2, Writing a PMDA)</p>
-<p>By creating new analysis or visualization tools using documented functions from the Performance Metrics Application Programming Interface (PMAPI) (Chapter 3, PMAPI–The Performance Metrics API)</p>
-<p>By adding performance instrumentation to an application using facilities from PCP libraries, which offer both sampling and event tracing models.</p>
+<blockquote>
+<div><ul class="simple">
+<li>By writing a Performance Metrics Domain Agent (PMDA) to collect performance metrics from an uncharted performance domain (Chapter 2, Writing a PMDA)</li>
+<li>By creating new analysis or visualization tools using documented functions from the Performance Metrics Application Programming Interface (PMAPI) (Chapter 3, PMAPI–The Performance Metrics API)</li>
+<li>By adding performance instrumentation to an application using facilities from PCP libraries, which offer both sampling and event tracing models.</li>
+</ul>
+</div></blockquote>
 <p>Finally, the topic of customizing an installation is covered in the chapter on customizing and extending PCP service in the Performance Co-Pilot User’s and Administrator’s Guide.</p>
 <div class="contents topic" id="contents">
 <p class="topic-title">Contents</p>
@@ -220,10 +224,10 @@
 <p>This section gives a brief overview of PCP architecture. For an explanation of terms and acronyms, refer to Appendix A, Acronyms.</p>
 <p>PCP consists of numerous monitoring and collecting tools. Monitoring tools such as pmval and pminfo report on metrics, but have minimal interaction with target systems. Collection tools, called PMDAs, extract performance values from target systems, but do not provide user interfaces.</p>
 <p>Systems supporting PCP services are broadly classified into two categories:</p>
-<p>Collector</p>
-<p>Hosts that have the PMCD and one or more PMDAs running to collect and export performance metrics</p>
-<p>Monitor</p>
-<p>Hosts that import performance metrics from one or more collector hosts to be consumed by tools to monitor, manage, or record the performance of the collector hosts</p>
+<blockquote>
+<div><p><strong>Collector</strong>: Hosts that have the PMCD and one or more PMDAs running to collect and export performance metrics</p>
+<p><strong>Monitor</strong>: Hosts that import performance metrics from one or more collector hosts to be consumed by tools to monitor, manage, or record the performance of the collector hosts</p>
+</div></blockquote>
 <p>Each PCP enabled host can operate as a collector, or a monitor, or both.</p>
 <p>Figure 1.1, “PCP Global Process Architecture” shows the architecture of PCP. The monitoring tools consume and process performance data using a public interface, the Performance Metrics Application Programming Interface (PMAPI).</p>
 <p>Below the PMAPI level is the PMCD process, which acts in a coordinating role, accepting requests from clients, routing requests to one or more PMDAs, aggregating responses from the PMDAs, and responding to the requesting client.</p>
@@ -263,7 +267,7 @@
 <div class="section" id="overview-of-component-software">
 <h2><a class="toc-backref" href="#id7">1.2. Overview of Component Software</a><a class="headerlink" href="#overview-of-component-software" title="Permalink to this headline">¶</a></h2>
 <p>Performance Co-Pilot (PCP) is composed of text-based tools, optional graphical tools, and related commands. Each tool or command is fully documented by a man page. These man pages are named after the tools or commands they describe, and are accessible through the man command. For example, to see the pminfo(1) man page for the pminfo command, enter this command:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="n">man</span> <span class="n">pminfo</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">man</span> <span class="n">pminfo</span>
 </pre></div>
 </div>
 <p>A list of PCP developer tools and commands, grouped by functionality, is provided in the following section.</p>
@@ -302,7 +306,7 @@
 <p>A PMDA interacts with PMCD across one of several well-defined interfaces and protocol mechanisms. These implementation options are described in the Performance Co-Pilot User’s and Administrator’s Guide.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">It is strongly recommended that code for a new PMDA be based on the source of one of the  existing PMDAs below the ${PCP_PMDAS_DIR} directory.</p>
+<p class="last">It is strongly recommended that code for a new PMDA be based on the source of one of the  existing PMDAs below the <code class="docutils literal notranslate"><span class="pre">${PCP_PMDAS_DIR}</span></code> directory.</p>
 </div>
 <div class="section" id="in-process-dso-method">
 <h4><a class="toc-backref" href="#id12">1.3.2.1. In-Process (DSO) Method</a><a class="headerlink" href="#in-process-dso-method" title="Permalink to this headline">¶</a></h4>
@@ -310,11 +314,11 @@
 </div>
 <div class="section" id="daemon-process-method">
 <h4><a class="toc-backref" href="#id13">1.3.2.2. Daemon Process Method</a><a class="headerlink" href="#daemon-process-method" title="Permalink to this headline">¶</a></h4>
-<p>Functionally, this method may be thought of as a DSO implementation with a standard main routine conversion wrapper so that communication with PMCD uses message passing rather than direct procedure calls. For some very basic examples, see the ${PCP_PMDAS_DIR}/trivial/trivial.c and ${PCP_PMDAS_DIR}/simple/simple.c source files.</p>
+<p>Functionally, this method may be thought of as a DSO implementation with a standard main routine conversion wrapper so that communication with PMCD uses message passing rather than direct procedure calls. For some very basic examples, see the <code class="docutils literal notranslate"><span class="pre">${PCP_PMDAS_DIR}/trivial/trivial.c</span></code> and <code class="docutils literal notranslate"><span class="pre">${PCP_PMDAS_DIR}/simple/simple.c</span></code> source files.</p>
 <p>The daemon PMDA is actually the most common, because it allows multiple threads of control, greater (different user) privileges when executing, and provides more resilient error encapsulation than the DSO method.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Of particular interest for daemon PMDA writers, the ${PCP_PMDAS_DIR}/simple PMDA has implementations in C, Perl and Python.</p>
+<p class="last">Of particular interest for daemon PMDA writers, the <code class="docutils literal notranslate"><span class="pre">${PCP_PMDAS_DIR}/simple</span></code> PMDA has implementations in C, Perl and Python.</p>
 </div>
 </div>
 </div>

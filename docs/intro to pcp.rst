@@ -59,15 +59,15 @@ Automated Operational Support
 =============================
 For operational and production environments, PCP provides a framework with scripts to customize in order to automate the execution of ongoing tasks such as these:
 
-Centralized archive logging for multiple remote hosts
+ * Centralized archive logging for multiple remote hosts
 
-Archive log rotation, consolidation, and culling
+ * Archive log rotation, consolidation, and culling
 
-Web-based publishing of charts showing snapshots of performance activity levels in the recent past
+ * Web-based publishing of charts showing snapshots of performance activity levels in the recent past
 
-Flexible alarm monitoring: parameterized rules to address common critical performance scenarios and facilities to customize and refine this monitoring
+ * Flexible alarm monitoring: parameterized rules to address common critical performance scenarios and facilities to customize and refine this monitoring
 
-Retrospective performance audits covering the recent past; for example, daily or weekly checks for performance regressions or quality of service problems
+ * Retrospective performance audits covering the recent past; for example, daily or weekly checks for performance regressions or quality of service problems
 
 PCP Extensibility
 =================
@@ -123,22 +123,21 @@ Figure 1.1. Performance Metric Domains as Autonomous Collections of Data
 
 Each domain has an associated access method:
 
-The operating system kernel, including sub-system data structures - per-process resource consumption, network statistics, disk activity, or memory management instrumentation.
+ * The operating system kernel, including sub-system data structures - per-process resource consumption, network statistics, disk activity, or memory management instrumentation.
 
-A layered software service such as activity logs for a World Wide Web server or an email 
-delivery server.
+ * A layered software service such as activity logs for a World Wide Web server or an email delivery server.
 
-An application program such as measured response time for a production application running a periodic and benign probe transaction (as often required in service level agreements), or rate of computation and throughput in jobs per minute for a batch stream.
+ * An application program such as measured response time for a production application running a periodic and benign probe transaction (as often required in service level agreements), or rate of computation and throughput in jobs per minute for a batch stream.
 
-External equipment such as network routers and bridges.
+ * External equipment such as network routers and bridges.
 
 For each domain, the set of performance metrics may be viewed as an abstract data type, with an associated set of methods that may be used to perform the following tasks:
 
-Interrogate the metadata that describes the syntax and semantics of the performance metrics
+ * Interrogate the metadata that describes the syntax and semantics of the performance metrics
 
-Control (enable or disable) the collection of some or all of the metrics
+ * Control (enable or disable) the collection of some or all of the metrics
 
-Extract instantiations (current values) for some or all of the metrics
+ * Extract instantiations (current values) for some or all of the metrics
 
 We refer to each functional domain as a performance metrics domain and assume that domains are functionally, architecturally, and administratively independent and autonomous. Obviously the set of performance metrics domains available on any host is variable, and changes with time as software and hardware are installed and removed.
 
@@ -188,20 +187,19 @@ Descriptions for Performance Metrics
 ====================================
 Through the various performance metric domains, the PCP must support a wide range of formats and semantics for performance metrics. This metadata describing the performance metrics includes the following:
 
-The internal identifier, Performance Metric Identifier (PMID), for the metric
+ * The internal identifier, Performance Metric Identifier (PMID), for the metric
 
-The format and encoding for the values of the metric, for example, an unsigned 32-bit 
-integer or a string or a 64-bit IEEE format floating point number
+ * The format and encoding for the values of the metric, for example, an unsigned 32-bit integer or a string or a 64-bit IEEE format floating point number
 
-The semantics of the metric, particularly the interpretation of the values as free-running counters or instantaneous values
+ * The semantics of the metric, particularly the interpretation of the values as free-running counters or instantaneous values
 
-The dimensionality of the values, in the dimensions of events, space, and time
+ * The dimensionality of the values, in the dimensions of events, space, and time
 
-The scale of values; for example, bytes, kilobytes (KB), or megabytes (MB) for the space dimension
+ * The scale of values; for example, bytes, kilobytes (KB), or megabytes (MB) for the space dimension
 
-An indication if the metric may have one or many associated values
+ * An indication if the metric may have one or many associated values
 
-Short (and extended) help text describing the metric
+ * Short (and extended) help text describing the metric
 
 For each metric, this metadata is defined within the associated PMDA, and PCP arranges for the information to be exported to performance tools that use the metadata when interpreting the values for each metric.
 
@@ -253,13 +251,9 @@ Collector and Monitor Roles
 Hosts supporting PCP services are broadly classified into two categories:
 ⁠
 
-Collector
+ **Collector** : Hosts that have pmcd and one or more performance metric domain agents (PMDAs) running to collect and export performance metrics
 
-Hosts that have pmcd and one or more performance metric domain agents (PMDAs) running to collect and export performance metrics
-
-Monitor
-
-Hosts that import performance metrics from one or more collector hosts to be consumed by tools to monitor, manage, or record the performance of the collector hosts
+ **Monitor** : Hosts that import performance metrics from one or more collector hosts to be consumed by tools to monitor, manage, or record the performance of the collector hosts
 
 Each PCP enabled host can operate as a collector, a monitor, or both.
 
@@ -280,19 +274,19 @@ Much of the PCP software's potential for attacking difficult performance problem
 
 The performance analyst can take advantage of the PCP infrastructure to deploy value-added performance monitoring tools and services. Here are some examples:
 
-Easy extension of the PCP collector to accommodate new performance metrics and new sources of performance metrics, in particular using the interfaces of a special-purpose library to develop new PMDAs (see the pmda(3) man page)
+ * Easy extension of the PCP collector to accommodate new performance metrics and new sources of performance metrics, in particular using the interfaces of a special-purpose library to develop new PMDAs (see the pmda(3) man page)
 
-Use of libraries (libpcp_pmda and libpcp_mmv) to aid in the development of new capabilities to export performance metrics from local applications
+ * Use of libraries (libpcp_pmda and libpcp_mmv) to aid in the development of new capabilities to export performance metrics from local applications
 
-Operation on any performance metric using generalized toolkits
+ * Operation on any performance metric using generalized toolkits
 
-Distribution of PCP components such as collectors across the network, placing the service where it can do the most good
+ * Distribution of PCP components such as collectors across the network, placing the service where it can do the most good
 
-Dynamic adjustment to changes in system configuration
+ * Dynamic adjustment to changes in system configuration
 
-Flexible customization built into the design of all PCP tools
+ * Flexible customization built into the design of all PCP tools
 
-Creation of new monitor applications, using the routines described in the pmapi(3) man page
+ * Creation of new monitor applications, using the routines described in the pmapi(3) man page
 
 
 Overview of Component Software
@@ -309,23 +303,18 @@ Performance Monitoring and Visualization
 =========================================
 The following tools provide the principal services for the PCP end-user with an interest in monitoring, visualizing, or processing performance information collected either in real time or from PCP archive logs:
 
-
 **pcp-atop**
-
 
 Full-screen monitor of the load on a system from a kernel, hardware and processes point of view. It is modeled on the Linux atop(1) tool (home page) and provides a showcase for the variety of data available using PCP services and the Python scripting interfaces.
 
-
 **pmchart**
-
 
 Strip chart tool for arbitrary performance metrics. Interactive graphical utility that can display multiple charts simultaneously, from multiple hosts or set of archives, aligned on a unified time axis (X-axis), or on multiple tabs.
 
-
 **pcp-collectl**
 
-
 Statistics collection tool with good coverage of a number of Linux kernel subsystems, with the everything-in-one-tool approach pioneered by sar(1). It is modeled on the Linux collectl(1) utility (home page) and provides another example of use of the Python scripting interfaces to build more complex functionality with relative ease, with PCP as a foundation.
+
 
 
 **pmrep**
@@ -595,6 +584,7 @@ Adds a subtree of new names into a PMNS, as used by the components of PCP.
 Removes a subtree of names from a PMNS, as used by the components of the PCP.
 
 **pmnsmerge**
+
 Merges multiple PMNS files together, as used by the components of PCP.
 
 **pmstore**
@@ -632,6 +622,7 @@ Is a simple client that uses the PMAPI to report some high-level system performa
 Is a library used by many shipped PMDAs to communicate with a pmcd process. It can expedite the development of new and custom PMDAs.
 
 **pmgenmap**
+
 Generates C declarations and cpp(1) macros to aid the development of customized programs that use the facilities of PCP. It is a PMDA development tool.
 
 
